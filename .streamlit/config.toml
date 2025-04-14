@@ -1,0 +1,6 @@
+[theme]
+primaryColor = "#1E90FF"              # Blue
+backgroundColor = "#262730"           # Dark gray
+secondaryBackgroundColor = "#31333F"  # Sidebar dark gray
+textColor = "#FAFAFA"                 # White text
+font = "monospace"                    # Monospace font

@@ -3,4 +3,4 @@ primaryColor = "#1F7D53"              # Blue
 backgroundColor = "#222222"           # Dark gray
 secondaryBackgroundColor = "#31333F"  # Sidebar dark gray
 textColor = "#FAFAFA"                 # White text
-font = "monospace"                    # Monospace font
+font = "arial"                    # Monospace font

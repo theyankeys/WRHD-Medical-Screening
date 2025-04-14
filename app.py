@@ -510,7 +510,7 @@ elif section == "Data Export":
     # Define user credentials (hashed passwords)
     credentials = {"wrhd_ms": hash_password("@#Bluebird95")}  # Example credentials
 
-    if not st.session_state["authenticated"]:
+   if not st.session_state["authenticated"]:
     username = st.text_input("Username", key="username")
     password = st.text_input("Password", type="password", key="password")
 

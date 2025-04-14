@@ -508,7 +508,7 @@ elif section == "Data Export":
     st.subheader("Authentication Required")
 
     # Define user credentials (hashed passwords)
-    credentials = {"admin": hash_password("password123")}  # Example credentials
+    credentials = {"wrhd_ms": hash_password("@#Bluebird95")}  # Example credentials
 
     if not st.session_state["authenticated"]:
         username = st.text_input("Username", key="username")

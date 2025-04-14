@@ -489,13 +489,43 @@ elif section == "Blood Glucose":
 elif section == "Data Export":
     st.title("Data Management")
     
-    if st.session_state['records']:
-        st.success(f"ℹ️ Found {len(st.session_state['records'])} patient records")
-        
-        # Show sample data
-        st.subheader("Sample Data")
-        st.dataframe(pd.DataFrame(st.session_state['records']).head())
-        
+    # Authentication
+    st.subheader("Authentication Required")
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
+    
+    # Secure credentials management using st.secrets
+    credentials = st.secrets["credentials"]
+    
+    if st.button("🔒 Login"):
+        if username in credentials and password == credentials[username]:
+            st.success("✅ Login successful!")
+            
+            if st.session_state['records']:
+                st.success(f"ℹ️ Found {len(st.session_state['records'])} patient records")
+                
+                # Show sample data
+                st.subheader("Sample Data")
+                st.dataframe(pd.DataFrame(st.session_state['records']).head())
+                
+                # Export options
+                st.subheader("Export Data")
+                csv = pd.DataFrame(st.session_state['records']).to_csv(index=False).encode('utf-8')
+                
+                st.download_button(
+                    label="📥 Download CSV",
+                    data=csv,
+                    file_name="medical_records.csv",
+                    mime="text/csv"
+                )
+                
+                if st.button("🔄 Refresh Data"):
+                    load_data()
+                    st.rerun()
+            else:
+                st.warning("⚠️ No patient records found")
+        else:
+            st.error("❌ Invalid username or password")
         # Export options
         st.subheader("Export Data")
         csv = pd.DataFrame(st.session_state['records']).to_csv(index=False).encode('utf-8')

@@ -533,6 +533,9 @@ elif section == "Data Export":
                 st.session_state["login_attempts"] += 1
                 st.session_state["last_attempt_time"] = time.time()
                 st.error("❌ Invalid username or password")
+
+         if st.session_state["authenticated"]:
+        st.success("You are authenticated!")
         
         # Logout button
         if st.button("Logout"):

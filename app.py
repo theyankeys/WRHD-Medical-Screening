@@ -511,61 +511,60 @@ elif section == "Data Export":
     credentials = {"wrhd_ms": hash_password("@#Bluebird95")}  # Example credentials
 
     if not st.session_state["authenticated"]:
-        username = st.text_input("Username", key="username")
-        password = st.text_input("Password", type="password", key="password")
+    username = st.text_input("Username", key="username")
+    password = st.text_input("Password", type="password", key="password")
 
-        # Rate limiting: Check attempts
-        if st.session_state["login_attempts"] >= 3:
-            cooldown_time = 60  # 60 seconds cooldown
-            if st.session_state["last_attempt_time"] and time.time() - st.session_state["last_attempt_time"] < cooldown_time:
-                st.error("Too many failed attempts. Please wait before retrying.")
-                st.stop()
-            else:
-                st.session_state["login_attempts"] = 0
-
-        if st.button("🔒 Login"):
-            hashed_input_password = hash_password(password)
-
-            if username in credentials and credentials[username] == hashed_input_password:
-                st.session_state["authenticated"] = True
-                st.success("✅ Login successful!")
-            else:
-                st.session_state["login_attempts"] += 1
-                st.session_state["last_attempt_time"] = time.time()
-                st.error("❌ Invalid username or password")
-
-         if st.session_state["authenticated"]:
-        st.success("You are authenticated!")
-        
-        # Logout button
-        if st.button("Logout"):
-            st.session_state["authenticated"] = False
-            st.session_state["username"] = ""
-            st.session_state["password"] = ""
-            st.info("Logged out successfully!")
+    # Rate limiting: Check attempts
+    if st.session_state["login_attempts"] >= 3:
+        cooldown_time = 60  # 60 seconds cooldown
+        if st.session_state["last_attempt_time"] and time.time() - st.session_state["last_attempt_time"] < cooldown_time:
+            st.error("Too many failed attempts. Please wait before retrying.")
             st.stop()
-
-        if st.session_state['records']:
-            st.success(f"ℹ️ Found {len(st.session_state['records'])} patient records")
-
-            # Show sample data
-            st.subheader("Sample Data")
-            st.dataframe(pd.DataFrame(st.session_state['records']).head())
-
-            # Export options
-            st.subheader("Export Data")
-            csv = pd.DataFrame(st.session_state['records']).to_csv(index=False).encode('utf-8')
-
-            st.download_button(
-                label="📥 Download CSV",
-                data=csv,
-                file_name="medical_records.csv",
-                mime="text/csv"
-            )
-
-            if st.button("🔄 Refresh Data"):
-                load_data()
-                st.rerun()
         else:
-            st.warning("⚠️ No patient records found")
- 
+            st.session_state["login_attempts"] = 0
+
+    if st.button("🔒 Login"):
+        hashed_input_password = hash_password(password)
+
+        if username in credentials and credentials[username] == hashed_input_password:
+            st.session_state["authenticated"] = True
+            st.success("✅ Login successful!")
+        else:
+            st.session_state["login_attempts"] += 1
+            st.session_state["last_attempt_time"] = time.time()
+            st.error("❌ Invalid username or password")
+
+if st.session_state["authenticated"]:  # Corrected alignment
+    st.success("You are authenticated!")
+
+    # Logout button
+    if st.button("Logout"):
+        st.session_state["authenticated"] = False
+        st.session_state["username"] = ""
+        st.session_state["password"] = ""
+        st.info("Logged out successfully!")
+        st.stop()
+
+    if st.session_state['records']:
+        st.success(f"ℹ️ Found {len(st.session_state['records'])} patient records")
+
+        # Show sample data
+        st.subheader("Sample Data")
+        st.dataframe(pd.DataFrame(st.session_state['records']).head())
+
+        # Export options
+        st.subheader("Export Data")
+        csv = pd.DataFrame(st.session_state['records']).to_csv(index=False).encode('utf-8')
+
+        st.download_button(
+            label="📥 Download CSV",
+            data=csv,
+            file_name="medical_records.csv",
+            mime="text/csv"
+        )
+
+        if st.button("🔄 Refresh Data"):
+            load_data()
+            st.rerun()
+    else:
+        st.warning("⚠️ No patient records found")

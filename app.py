@@ -469,7 +469,7 @@ elif section == "Blood Glucose":
                                         format="%.1f")
                 
                 fasting = st.radio("Fasting Status",
-                                  ["Fasting", "Non-fasting"],
+                                  ["Fasting", "Random"],
                                   index=0 if record.get('Fasting Status') == "Fasting" else 1)
                 
                 if st.form_submit_button("💾 Save Glucose Reading"):

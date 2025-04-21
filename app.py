@@ -174,8 +174,7 @@ known_diabetes = st.radio(
     "Known Diabetic",
     options=["Yes", "No"],
     index=0 if default_values.get('known_diabetes') == "Yes" else 1
-)
-        
+)      
         # Calculate age
         age = calculate_age(dob) if dob else None
         if age:

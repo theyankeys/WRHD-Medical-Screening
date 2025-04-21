@@ -81,7 +81,7 @@ section = st.sidebar.radio("Select Section", [
     "Blood Pressure", 
     "Blood Glucose", 
     "BMI", 
-    "Visual Acuity", 
+    "Visual Examination", 
     "General Assessment",
     "Data Export"
 ])
@@ -382,10 +382,10 @@ elif section == "BMI":
         st.info("ℹ️ Please enter a patient name or unique code to search")
 
 # ========================
-# VISUAL ACUITY SECTION
+# VISUAL EXAMINATION SECTION
 # ========================
-elif section == "Visual Acuity":
-    st.title("Visual Acuity")
+elif section == "Visual Examination":
+    st.title("Visual Examination")
     search_term = st.text_input("🔍 Search by Name or Unique Code")
     
     if search_term:
@@ -409,7 +409,7 @@ elif section == "Visual Acuity":
             st.subheader(f"Patient: {record['First Name']} {record['Last Name']}")
             st.write(f"**Unique Code:** {record['Unique Code']} | **Age:** {record.get('Age', 'N/A')}")
             
-            with st.form("vision_form"):
+            with st.form("visual_exam_form"):
                 col1, col2 = st.columns(2)
                 with col1:
                     right_eye = st.text_input("Right Eye (e.g., 6/6)",
@@ -421,20 +421,42 @@ elif section == "Visual Acuity":
                 with_glasses = st.checkbox("Tested with glasses/contacts",
                                          value=record.get('With Glasses', False))
                 
-                if st.form_submit_button("💾 Save Visual Acuity"):
+                if with_glasses:
+                    st.subheader("Visual Acuity with Glasses")
+                    col3, col4 = st.columns(2)
+                    with col3:
+                        right_eye_glasses = st.text_input("Right Eye with Glasses (e.g., 6/6)",
+                                                          value=record.get('Right Eye with Glasses', ''))
+                    with col4:
+                        left_eye_glasses = st.text_input("Left Eye with Glasses (e.g., 6/6)",
+                                                         value=record.get('Left Eye with Glasses', ''))
+                
+                clinical_notes = st.text_area("Clinical Notes", 
+                                              value=record.get('Clinical Notes', ''))
+                
+                refer_specialist = st.checkbox("Refer to Specialist", 
+                                              value=record.get('Referred', False))
+                
+                if st.form_submit_button("💾 Save Visual Examination"):
                     record['Visual Acuity Right'] = right_eye
                     record['Visual Acuity Left'] = left_eye
-                    record['Vision Test Date'] = datetime.today().strftime('%Y-%m-%d')
                     record['With Glasses'] = with_glasses
+                    record['Vision Test Date'] = datetime.today().strftime('%Y-%m-%d')
+                    if with_glasses:
+                        record['Right Eye with Glasses'] = right_eye_glasses
+                        record['Left Eye with Glasses'] = left_eye_glasses
+                    record['Clinical Notes'] = clinical_notes
+                    record['Referred'] = refer_specialist
+                    if refer_specialist:
+                        record['Referral Date'] = datetime.today().strftime('%Y-%m-%d')
                     if save_data():
-                        st.success("✅ Visual acuity saved successfully!")
+                        st.success("✅ Visual examination saved successfully!")
                     else:
-                        st.error("❌ Failed to save visual acuity data")
+                        st.error("❌ Failed to save visual examination data")
         else:
             st.warning("⚠️ No matching patients found")
     else:
         st.info("ℹ️ Please enter a patient name or unique code to search")
-
 # ========================
 # BLOOD GLUCOSE SECTION
 # ========================

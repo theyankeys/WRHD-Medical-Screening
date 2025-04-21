@@ -256,7 +256,6 @@ elif section == "Blood Pressure":
                         st.success(f"✅ Blood pressure saved: {systolic}/{diastolic} mmHg")
                     else:
                         st.error("❌ Failed to save blood pressure data")
-            st.warning("⚠️ No matching patients found")
     else:
         st.info("ℹ️ Please enter a patient name or unique code to search")
 

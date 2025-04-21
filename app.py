@@ -183,6 +183,7 @@ if section == "General Information":
                     }
                     st.session_state['records'].append(new_record)
                     if save_data():
+                        st.success("✅ Visual Examination saved successfully!")
                         st.success(f"✅ Patient registered successfully! Unique Code: {unique_code}")
                         st.session_state['reset_form'] = True
                         st.rerun()
@@ -449,16 +450,14 @@ if st.form_submit_button("💾 Save Visual Examination"):
     record['With Glasses'] = with_glasses
     record['Visual Examination Notes'] = visual_notes
     record['Referred'] = True
-if matches:
-if save_data():
-    st.success("✅ Visual Examination saved successfully!")
-else:
-    st.error("❌ Failed to save visual examination data")
-    
-if matches:
-    st.warning("⚠️ No matching patients found")
-else:
-    st.info("ℹ️ Please enter a patient name or unique code to search")
+    if matches:
+        if save_data():
+            st.success("✅ Visual Examination saved successfully!")
+        else:
+            st.error("❌ Failed to save visual examination data")
+    else:
+        st.warning("⚠️ No matching patients found")
+
 # ========================
 # BLOOD GLUCOSE SECTION
 # ========================
@@ -473,13 +472,16 @@ elif section == "Blood Glucose":
             if (search_term in f"{r.get('First Name', '')} {r.get('Last Name', '')}".lower() 
                 or search_term in str(r.get('Unique Code', '')).lower())
         ]
+        
         if matches:
             if len(matches) > 1:
-                selected = st.selectbox("Select patient", 
-                                      [f"{m['First Name']} {m['Last Name']} ({m['Unique Code']})" 
-                                       for m in matches])
-                record = matches[[f"{m['First Name']} {m['Last Name']} ({m['Unique Code']})" 
-                                for m in matches].index(selected)]
+                selected = st.selectbox(
+                    "Select patient", 
+                    [f"{m['First Name']} {m['Last Name']} ({m['Unique Code']})" for m in matches]
+                )
+                record = matches[
+                    [f"{m['First Name']} {m['Last Name']} ({m['Unique Code']})" for m in matches].index(selected)
+                ]
             else:
                 record = matches[0]
             
@@ -487,14 +489,18 @@ elif section == "Blood Glucose":
             st.write(f"**Unique Code:** {record['Unique Code']} | **Age:** {record.get('Age', 'N/A')}")
             
             with st.form("glucose_form"):
-                glucose = st.number_input("Blood Glucose (mg/dL)", 
-                                        value=0.0,
-                                        step=0.1,
-                                        format="%.1f")
+                glucose = st.number_input(
+                    "Blood Glucose (mg/dL)", 
+                    value=0.0,
+                    step=0.1,
+                    format="%.1f"
+                )
                 
-                fasting = st.radio("Fasting Status",
-                                  ["Fasting", "Random"],
-                                  index=0 if record.get('Fasting Status') == "Fasting" else 1)
+                fasting = st.radio(
+                    "Fasting Status",
+                    ["Fasting", "Random"],
+                    index=0 if record.get('Fasting Status') == "Fasting" else 1
+                )
                 
                 if st.form_submit_button("💾 Save Glucose Reading"):
                     record['Blood Glucose'] = glucose

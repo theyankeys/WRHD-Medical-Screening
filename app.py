@@ -298,6 +298,9 @@ elif section == "General Assessment":
             
             if 'BMI' in record and record['BMI'] > 30:
                 risk_factors.append("Obesity")
+                
+            if 'BMI' in record and record['BMI'] = 25-29.9:
+                risk_factors.append("Overweight")
             
             if risk_factors:
                 st.warning(f"🚨 Risk Factors Detected: {', '.join(risk_factors)}")

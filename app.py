@@ -305,8 +305,6 @@ if 'record' in locals() and record:
                 risk_factors.append("Hypertension")
         except ValueError:
             st.error("Invalid Blood Pressure format. Expected 'systolic/diastolic'.")
-else:
-    st.warning("No patient record is currently selected!")
 # BMI Risk
 if 'record' in locals() and record is not None:
     if 'BMI' in record:

@@ -384,8 +384,8 @@ elif section == "BMI":
 # ========================
 # VISUAL EXAMINATION SECTION
 # ========================
-elif section == "Visual Examination Section":
-    st.title("Visual Examination Section")
+elif section == "Visual Examination":
+    st.title("Visual Examination")
     search_term = st.text_input("🔍 Search by Name or Unique Code")
     
     if search_term:

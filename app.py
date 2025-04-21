@@ -81,7 +81,7 @@ section = st.sidebar.radio("Select Section", [
     "Blood Pressure", 
     "Blood Glucose", 
     "BMI", 
-    "Visual Acuity", 
+    "Visual Examination", 
     "General Assessment",
     "Data Export"
 ])
@@ -382,7 +382,7 @@ elif section == "BMI":
         st.info("ℹ️ Please enter a patient name or unique code to search")
 
 # ========================
-# VISUAL ACUITY SECTION
+# VISUAL EXAMINATION SECTION
 # ========================
 elif section == "Visual Examination":
     st.title("Visual Examination")

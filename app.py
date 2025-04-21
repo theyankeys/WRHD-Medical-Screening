@@ -155,13 +155,15 @@ if section == "General Information":
         
         family_history_diabetes = st.radio(
             "Family History of Diabetes",
-            options=["Yes", "No"],
-            index=1 if default_values.get('family_history_diabetes') == "No" else 0
+            options=["Yes", "No", "Don't Know"],
+            index=2 if default_values.get('family_history_diabetes') == "Don't Know" else
+                  (1 if default_values.get('family_history_diabetes') == "No" else 0)
         )
         family_history_hypertension = st.radio(
             "Family History of Hypertension",
-            options=["Yes", "No"],
-            index=1 if default_values.get('family_history_hypertension') == "No" else 0
+            options=["Yes", "No", "Don't Know"],
+            index=2 if default_values.get('family_history_hypertension') == "Don't Know" else
+                  (1 if default_values.get('family_history_hypertension') == "No" else 0)
         )
         
         # Calculate age
@@ -203,7 +205,6 @@ if section == "General Information":
                     st.error(f"❌ Error: {str(e)}")
             else:
                 st.error("⚠️ Please fill all required fields (*)")
-
 # ========================
 # BLOOD PRESSURE SECTION
 # ========================

@@ -421,15 +421,15 @@ elif section == "Visual Examination":
                 with_glasses = st.checkbox("Tested with glasses/contacts",
                                          value=record.get('With Glasses', False))
                 
-                col_a, col_b = st. columns(2)
-               with col_a:
-                   right_eye_glasses = st.text_input("Right Eye (e.g., 6/6)",
-                                      value=record.get('Visual Acuity Right (With Glasses)', ''),
-                                      key="right_eye_glasses")
-                   with col_b:
-                       left_eye_glasses = st.text_input("Left Eye (e.g., 6/6)",
-                                     value=record.get('Visual Acuity Left (With Glasses)', ''),
-                                     key="left_eye_glasses")
+                 col_a, col_b = st.columns(2)
+                 with col_a:
+                     right_eye_glasses = st.text_input("Right Eye (e.g., 6/6)",
+                                                    value=record.get('Visual Acuity Right (With Glasses)', ''),
+                                                    key="right_eye_glasses")
+                 with col_b:
+                     left_eye_glasses = st.text_input("Left Eye (e.g., 6/6)",
+                                                    value=record.get('Visual Acuity Left (With Glasses)', ''),
+                                                    key="left_eye_glasses")
     
                 visual_notes = st.text_area("Visual Examination Notes")
                 referred = st.checkbox("Refer to specialist",

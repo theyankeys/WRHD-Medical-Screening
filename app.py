@@ -166,53 +166,53 @@ if section == "General Information":
                   (1 if default_values.get('family_history_hypertension') == "No" else 0)
         )
         known_hypertensive = st.radio(
-    "Known Hypertensive",
-    options=["Yes", "No"],
-    index=0 if default_values.get('known_hypertensive') == "Yes" else 1
-)
-known_diabetes = st.radio(
-    "Known Diabetic",
-    options=["Yes", "No"],
-    index=0 if default_values.get('known_diabetes') == "Yes" else 1
-)      
-# Calculate age
-age = calculate_age(dob) if dob else None
-if age:
-    st.write(f"**Age:** {age}")
-# Save button
-if st.form_submit_button("💾 Save Record", type="primary"):
-    if all([first_name, last_name, dob, sex, department]):
-        unique_code = generate_unique_id(first_name, last_name, department)
-        st.session_state.last_unique_code = unique_code
-        st.session_state.show_unique_code = True
-        st.session_state.unique_code_time = datetime.now()
-        try:
-            unique_code = generate_unique_id(first_name, last_name, department)
-            new_record = {
-                'First Name': first_name.strip(),
-                'Middle Name': middle_name.strip(),
-                'Last Name': last_name.strip(),
-                'DOB': dob,
-                'Age': age,
-                'Sex': sex,
-                'Department': department,
-                'Job Title': job_title.strip(),
-                'Email': email.strip(),
-                'Phone Number': phone_number.strip(),
-                'Family History of Diabetes': family_history_diabetes,
-                'Family History of Hypertension': family_history_hypertension,
-                'Unique Code': unique_code,
-                'Registration Date': datetime.today().strftime('%Y-%m-%d')
-            }
-            st.session_state['records'].append(new_record)
-            if save_data():
-                st.success(f"✅ Patient registered successfully! Unique Code: {unique_code}")
-                st.session_state['reset_form'] = True
-                st.rerun()
-        except Exception as e:
-            st.error(f"❌ Error: {str(e)}")
-        else:
-            st.error("⚠️ Please fill all required fields (*)")
+            "Known Hypertensive",
+            options=["Yes", "No"],
+            index=0 if default_values.get('known_hypertensive') == "Yes" else 1
+        )
+        known_diabetes = st.radio(
+            "Known Diabetic",
+            options=["Yes", "No"],
+            index=0 if default_values.get('known_diabetes') == "Yes" else 1
+        )      
+        # Calculate age
+        age = calculate_age(dob) if dob else None
+        if age:
+            st.write(f"**Age:** {age}")
+        # Save button
+        if st.form_submit_button("💾 Save Record", type="primary"):
+            if all([first_name, last_name, dob, sex, department]):
+                unique_code = generate_unique_id(first_name, last_name, department)
+                st.session_state.last_unique_code = unique_code
+                st.session_state.show_unique_code = True
+                st.session_state.unique_code_time = datetime.now()
+                try:
+                    unique_code = generate_unique_id(first_name, last_name, department)
+                    new_record = {
+                        'First Name': first_name.strip(),
+                        'Middle Name': middle_name.strip(),
+                        'Last Name': last_name.strip(),
+                        'DOB': dob,
+                        'Age': age,
+                        'Sex': sex,
+                        'Department': department,
+                        'Job Title': job_title.strip(),
+                        'Email': email.strip(),
+                        'Phone Number': phone_number.strip(),
+                        'Family History of Diabetes': family_history_diabetes,
+                        'Family History of Hypertension': family_history_hypertension,
+                        'Unique Code': unique_code,
+                        'Registration Date': datetime.today().strftime('%Y-%m-%d')
+                    }
+                    st.session_state['records'].append(new_record)
+                    if save_data():
+                        st.success(f"✅ Patient registered successfully! Unique Code: {unique_code}")
+                        st.session_state['reset_form'] = True
+                        st.rerun()
+                except Exception as e:
+                    st.error(f"❌ Error: {str(e)}")
+                else:
+                    st.error("⚠️ Please fill all required fields (*)")
         
 # ========================
 # BLOOD PRESSURE SECTION

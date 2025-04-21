@@ -427,7 +427,7 @@ elif section == "Visual Examination":
                     left_eye_glasses = st.text_input("Left Eye with Glasses (e.g., 6/6)",
                                                      value=record.get('Left Eye with Glasses', ''))
                 
-                clinical_notes = st.text_area("Clinical Notes", 
+                visualexamination_notes = st.text_area("Visual Examination Notes", 
                                               value=record.get('Clinical Notes', ''))
                 
                 refer_specialist = st.checkbox("Refer to Specialist", 
@@ -439,7 +439,7 @@ elif section == "Visual Examination":
                     record['Right Eye with Glasses'] = right_eye_glasses
                     record['Left Eye with Glasses'] = left_eye_glasses
                     record['Vision Test Date'] = datetime.today().strftime('%Y-%m-%d')
-                    record['Clinical Notes'] = clinical_notes
+                    record['Visual Examination Notes'] = visualexamination_notes
                     record['Referred'] = refer_specialist
                     if refer_specialist:
                         record['Referral Date'] = datetime.today().strftime('%Y-%m-%d')

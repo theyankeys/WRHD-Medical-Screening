@@ -333,7 +333,7 @@ if 'Blood Glucose' in record and 'Fasting Status' in record:
 
 # Display Risk Factors
 if risk_factors:
-    st.warning(f"🚨 Risk Factors Detected: {', '.join(risk_factors)}")_factors)}")
+    st.warning(f"🚨 Risk Factors Detected: {', '.join(risk_factors)}")
             
             # Assessment form
             with st.form("assessment_form"):

@@ -439,16 +439,16 @@ referred = st.checkbox(
 )
 
 visual_notes = st.text_area("Visual Examination Notes")
-                
-                if st.form_submit_button("💾 Save Visual Examination"):
-                    record['Visual Acuity Right'] = right_eye
-                    record['Visual Acuity Left'] = left_eye
-                    record['Visual Acuity Right (With Glasses)'] = right_eye_glasses
-                    record['Visual Acuity Left (With Glasses)'] = left_eye_glasses
-                    record['Vision Test Date'] = datetime.today().strftime('%Y-%m-%d')
-                    record['With Glasses'] = with_glasses
-                    record['Visual Examination Notes'] = visual_notes
-                    record['Referred'] = True
+
+if st.form_submit_button("💾 Save Visual Examination"):
+    record['Visual Acuity Right'] = right_eye
+    record['Visual Acuity Left'] = left_eye
+    record['Visual Acuity Right (With Glasses)'] = right_eye_glasses
+    record['Visual Acuity Left (With Glasses)'] = left_eye_glasses
+    record['Vision Test Date'] = datetime.today().strftime('%Y-%m-%d')
+    record['With Glasses'] = with_glasses
+    record['Visual Examination Notes'] = visual_notes
+    record['Referred'] = True
                     if save_data():
                         st.success("✅ Visual Examination saved successfully!")
                     else:

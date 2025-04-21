@@ -423,11 +423,11 @@ elif section == "Visual Examination":
                 
                 col_a, col_b = st. columns(2)
                with col_a:
-    right_eye_glasses = st.text_input("Right Eye (e.g., 6/6)",
+                   right_eye_glasses = st.text_input("Right Eye (e.g., 6/6)",
                                       value=record.get('Visual Acuity Right (With Glasses)', ''),
                                       key="right_eye_glasses")
-with col_b:
-    left_eye_glasses = st.text_input("Left Eye (e.g., 6/6)",
+                   with col_b:
+                       left_eye_glasses = st.text_input("Left Eye (e.g., 6/6)",
                                      value=record.get('Visual Acuity Left (With Glasses)', ''),
                                      key="left_eye_glasses")
     

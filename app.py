@@ -423,7 +423,7 @@ elif section == "Visual Examination":
                 
                 col_a, col_b = st. columns(2)
                 with col_a:
-                    right_eye_glasses = ste.text_input("Right Eye (e.g., 6/6)",
+                    right_eye_glasses = st.text_input("Right Eye (e.g., 6/6)",
                                             value=record.get('Visual Acuity Right (With Glasses)', ''))
                 with col_b:
                     left_eye_glasses = st.text_input("Left Eye (e.g., 6/6)",
@@ -433,7 +433,7 @@ elif section == "Visual Examination":
                 referred = st.checkbox("Refer to specialist",
                                       value=record.get('Referred', False))
                 
-                if st.form_submit_button("💾 Save Visual Acuity"):
+                if st.form_submit_button("💾 Save Visual Examination"):
                     record['Visual Acuity Right'] = right_eye
                     record['Visual Acuity Left'] = left_eye
                     record['Visual Acuity Right (With Glasses)'] = right_eye_glasses

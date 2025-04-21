@@ -309,12 +309,15 @@ if 'record' in locals() and record:
 else:
     st.warning("No patient record is currently selected!")
 # BMI Risk
+   if 'record' in locals() and record is not None:
     if 'BMI' in record:
         bmi = record['BMI']
         if bmi > 30:
             risk_factors.append("Obesity")
         elif 25 <= bmi < 30:
-            risk_factors.append("Overweight") 
+            risk_factors.append("Overweight")
+else:
+    st.warning("No patient record is currently selected!")
 # Blood Glucose Risk
 if 'Blood Glucose' in record and 'Fasting Status' in record:
     glucose = record['Blood Glucose']

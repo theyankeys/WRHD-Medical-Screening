@@ -451,14 +451,14 @@ if st.form_submit_button("💾 Save Visual Examination"):
     record['Referred'] = True
 if matches:
     if save_data():
-        st.success("✅ Visual Examination saved successfully!")
-    else:
-        st.error("❌ Failed to save visual examination data")
+    st.success("✅ Visual Examination saved successfully!")
 else:
+    st.error("❌ Failed to save visual examination data")
+    
+if matches:
     st.warning("⚠️ No matching patients found")
 else:
     st.info("ℹ️ Please enter a patient name or unique code to search")
-
 # ========================
 # BLOOD GLUCOSE SECTION
 # ========================

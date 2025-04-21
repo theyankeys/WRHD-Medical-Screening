@@ -175,10 +175,10 @@ known_diabetes = st.radio(
     options=["Yes", "No"],
     index=0 if default_values.get('known_diabetes') == "Yes" else 1
 )      
-        # Calculate age
-        age = calculate_age(dob) if dob else None
-        if age:
-            st.write(f"**Age:** {age}")
+# Calculate age
+age = calculate_age(dob) if dob else None
+if age:
+    st.write(f"**Age:** {age}")
         
         # Save button
         if st.form_submit_button("💾 Save Record", type="primary"):

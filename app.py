@@ -449,14 +449,15 @@ if st.form_submit_button("💾 Save Visual Examination"):
     record['With Glasses'] = with_glasses
     record['Visual Examination Notes'] = visual_notes
     record['Referred'] = True
-if save_data():  # Ensured proper alignment
-    st.success("✅ Visual Examination saved successfully!")
-else:
-    st.error("❌ Failed to save visual examination data")
-        else:
-            st.warning("⚠️ No matching patients found")
+if matches:
+    if save_data():
+        st.success("✅ Visual Examination saved successfully!")
     else:
-        st.info("ℹ️ Please enter a patient name or unique code to search")
+        st.error("❌ Failed to save visual examination data")
+else:
+    st.warning("⚠️ No matching patients found")
+else:
+    st.info("ℹ️ Please enter a patient name or unique code to search")
 
 # ========================
 # BLOOD GLUCOSE SECTION

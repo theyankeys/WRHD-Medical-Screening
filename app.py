@@ -287,24 +287,44 @@ elif section == "General Assessment":
                 st.table(pd.DataFrame.from_dict(display_data, orient='index', columns=['Value']))
             
             # Risk assessment
-            risk_factors = []
-            if 'Blood Pressure' in record:
-                try:
-                    systolic, diastolic = map(int, record['Blood Pressure'].split('/'))
-                    if systolic > 140 or diastolic > 90:
-                        risk_factors.append("Hypertension")
-                except:
-                    pass
-            
-            if 'BMI' in record:
-                bmi = record['BMI']
-                if bmi > 30:
-                    risk_factors.append("Obesity")
-                elif 25 <= bmi < 30:
-                    risk_factors.append("Overweight")
-            
-            if risk_factors:
-                st.warning(f"🚨 Risk Factors Detected: {', '.join(risk_factors)}")
+risk_factors = []
+
+# Blood Pressure Risk
+if 'Blood Pressure' in record:
+    try:
+        systolic, diastolic = map(int, record['Blood Pressure'].split('/'))
+        if systolic > 140 or diastolic > 90:
+            risk_factors.append("Hypertension")
+    except:
+        pass
+
+# BMI Risk
+if 'BMI' in record:
+    bmi = record['BMI']
+    if bmi > 30:
+        risk_factors.append("Obesity")
+    elif 25 <= bmi < 30:
+        risk_factors.append("Overweight")
+
+# Blood Glucose Risk
+if 'Blood Glucose' in record and 'Fasting Status' in record:
+    glucose = record['Blood Glucose']
+    fasting_status = record['Fasting Status']
+
+    if fasting_status == "Fasting":
+        if 5.7 <= glucose <= 6.9:
+            risk_factors.append("Prediabetes (Fasting)")
+        elif glucose >= 7.0:
+            risk_factors.append("Diabetes (Fasting)")
+    elif fasting_status == "Random":
+        if 7.8 <= glucose <= 11.0:
+            risk_factors.append("Prediabetes (Random)")
+        elif glucose >= 11.1:
+            risk_factors.append("Diabetes (Random)")
+
+# Display Risk Factors
+if risk_factors:
+    st.warning(f"🚨 Risk Factors Detected: {', '.join(risk_factors)}")_factors)}")
             
             # Assessment form
             with st.form("assessment_form"):

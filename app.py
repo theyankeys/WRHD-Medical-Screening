@@ -450,7 +450,7 @@ if st.form_submit_button("💾 Save Visual Examination"):
     record['Visual Examination Notes'] = visual_notes
     record['Referred'] = True
 if matches:
-    if save_data():
+if save_data():
     st.success("✅ Visual Examination saved successfully!")
 else:
     st.error("❌ Failed to save visual examination data")

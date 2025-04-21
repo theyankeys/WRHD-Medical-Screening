@@ -312,12 +312,12 @@ if 'Blood Glucose' in record and 'Fasting Status' in record:
     fasting_status = record['Fasting Status']
 
     if fasting_status == "Fasting":
-        if 5.7 <= glucose <= 6.9:
+        if 5.7 >= glucose = 6.9:
             risk_factors.append("Prediabetes (Fasting)")
         elif glucose >= 7.0:
             risk_factors.append("Diabetes (Fasting)")
     elif fasting_status == "Random":
-        if 7.8 <= glucose <= 11.0:
+        if 7.8 >= glucose = 11.0:
             risk_factors.append("Prediabetes (Random)")
         elif glucose >= 11.1:
             risk_factors.append("Diabetes (Random)")

@@ -384,8 +384,8 @@ elif section == "BMI":
 # ========================
 # VISUAL ACUITY SECTION
 # ========================
-elif section == "Visual Acuity":
-    st.title("Visual Acuity")
+elif section == "Visual Examination":
+    st.title("Visual Examination")
     search_term = st.text_input("🔍 Search by Name or Unique Code")
     
     if search_term:
@@ -421,15 +421,31 @@ elif section == "Visual Acuity":
                 with_glasses = st.checkbox("Tested with glasses/contacts",
                                          value=record.get('With Glasses', False))
                 
+                col_a, col_b = st. columns(2)
+                with col_a:
+                    right_eye_glasses = ste.text_input("Right Eye (e.g., 6/6)",
+                                            value=record.get('Visual Acuity Right (With Glasses)', ''))
+                with col_b:
+                    left_eye_glasses = st.text_input("Left Eye (e.g., 6/6)",
+                                            value=record.get('Visual Acuity Left (With Glasses)', ''))
+                
+                visual_notes = st.text_area("Visual Examination Notes")
+                referred = st.checkbox("Refer to specialist",
+                                      value=record.get('Referred', False))
+                
                 if st.form_submit_button("💾 Save Visual Acuity"):
                     record['Visual Acuity Right'] = right_eye
                     record['Visual Acuity Left'] = left_eye
+                    record['Visual Acuity Right (With Glasses)'] = right_eye_glasses
+                    record['Visual Acuity Left (With Glasses)'] = left_eye_glasses
                     record['Vision Test Date'] = datetime.today().strftime('%Y-%m-%d')
                     record['With Glasses'] = with_glasses
+                    record['Visual Examination Notes'] = visual_notes
+                    record['Referred'] = True
                     if save_data():
-                        st.success("✅ Visual acuity saved successfully!")
+                        st.success("✅ Visual Examination saved successfully!")
                     else:
-                        st.error("❌ Failed to save visual acuity data")
+                        st.error("❌ Failed to save visual examination data")
         else:
             st.warning("⚠️ No matching patients found")
     else:

@@ -384,8 +384,8 @@ elif section == "BMI":
 # ========================
 # VISUAL EXAMINATION SECTION
 # ========================
-elif section == "Visual Examination":
-    st.title("Visual Examination")
+elif section == "Visual Examination Section":
+    st.title("Visual Examination Section")
     search_term = st.text_input("🔍 Search by Name or Unique Code")
     
     if search_term:
@@ -418,16 +418,14 @@ elif section == "Visual Examination":
                     left_eye = st.text_input("Left Eye (e.g., 6/6)",
                                             value=record.get('Visual Acuity Left', ''))
                 
-                with_glasses = st.checkbox("Tested with glasses/contacts",
-                                         value=record.get('With Glasses', False))
-                
-                    col3, col4 = st.columns(2)
-                    with col3:
-                        right_eye_glasses = st.text_input("Right Eye with Glasses (e.g., 6/6)",
-                                                          value=record.get('Right Eye with Glasses', ''))
-                    with col4:
-                        left_eye_glasses = st.text_input("Left Eye with Glasses (e.g., 6/6)",
-                                                         value=record.get('Left Eye with Glasses', ''))
+                st.subheader("Visual Acuity with Glasses")
+                col3, col4 = st.columns(2)
+                with col3:
+                    right_eye_glasses = st.text_input("Right Eye with Glasses (e.g., 6/6)",
+                                                      value=record.get('Right Eye with Glasses', ''))
+                with col4:
+                    left_eye_glasses = st.text_input("Left Eye with Glasses (e.g., 6/6)",
+                                                     value=record.get('Left Eye with Glasses', ''))
                 
                 clinical_notes = st.text_area("Clinical Notes", 
                                               value=record.get('Clinical Notes', ''))
@@ -438,10 +436,9 @@ elif section == "Visual Examination":
                 if st.form_submit_button("💾 Save Visual Examination"):
                     record['Visual Acuity Right'] = right_eye
                     record['Visual Acuity Left'] = left_eye
-                    record['With Glasses'] = with_glasses
-                    record['Vision Test Date'] = datetime.today().strftime('%Y-%m-%d')
                     record['Right Eye with Glasses'] = right_eye_glasses
                     record['Left Eye with Glasses'] = left_eye_glasses
+                    record['Vision Test Date'] = datetime.today().strftime('%Y-%m-%d')
                     record['Clinical Notes'] = clinical_notes
                     record['Referred'] = refer_specialist
                     if refer_specialist:

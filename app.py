@@ -153,6 +153,17 @@ if section == "General Information":
             email = st.text_input("Email", value=default_values['email'])
             phone_number = st.text_input("Phone Number", value=default_values['phone'])
         
+        family_history_diabetes = st.radio(
+            "Family History of Diabetes",
+            options=["Yes", "No"],
+            index=1 if default_values.get('family_history_diabetes') == "No" else 0
+        )
+        family_history_hypertension = st.radio(
+            "Family History of Hypertension",
+            options=["Yes", "No"],
+            index=1 if default_values.get('family_history_hypertension') == "No" else 0
+        )
+        
         # Calculate age
         age = calculate_age(dob) if dob else None
         if age:
@@ -178,6 +189,8 @@ if section == "General Information":
                         'Job Title': job_title.strip(),
                         'Email': email.strip(),
                         'Phone Number': phone_number.strip(),
+                        'Family History of Diabetes': family_history_diabetes,
+                        'Family History of Hypertension': family_history_hypertension,
                         'Unique Code': unique_code,
                         'Registration Date': datetime.today().strftime('%Y-%m-%d')
                     }

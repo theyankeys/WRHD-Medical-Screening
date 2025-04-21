@@ -309,7 +309,7 @@ if 'record' in locals() and record:
 else:
     st.warning("No patient record is currently selected!")
 # BMI Risk
-   if 'record' in locals() and record is not None:
+if 'record' in locals() and record is not None:
     if 'BMI' in record:
         bmi = record['BMI']
         if bmi > 30:

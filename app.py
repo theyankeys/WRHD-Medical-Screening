@@ -433,9 +433,12 @@ with col_b:
         value=record.get('Visual Acuity Left (With Glasses)', ''),
         key="left_eye_glasses"
     )
-                visual_notes = st.text_area("Visual Examination Notes")
-                referred = st.checkbox("Refer to specialist",
-                                      value=record.get('Referred', False))
+referred = st.checkbox(
+    "Refer to specialist",
+    value=record.get('Referred', False)
+)
+
+visual_notes = st.text_area("Visual Examination Notes")
                 
                 if st.form_submit_button("💾 Save Visual Examination"):
                     record['Visual Acuity Right'] = right_eye

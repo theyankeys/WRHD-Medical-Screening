@@ -423,17 +423,25 @@ elif section == "Visual Examination":
                                          value=record.get('With Glasses', False))
                 col_a, col_b = st.columns(2)
 with col_a:
+    record = matches[0]
     right_eye_glasses = st.text_input(
         "Right Eye (e.g., 6/6)",
         value=record.get('Visual Acuity Right (With Glasses)', ''),
         key="right_eye_glasses"
     )
+else:
+st.warning("⚠️ No matching patients found")
+st.stop()
 with col_b:
+    record = matches[0]
     left_eye_glasses = st.text_input(
         "Left Eye (e.g., 6/6)",
         value=record.get('Visual Acuity Left (With Glasses)', ''),
         key="left_eye_glasses"
     )
+else:
+st.warning("⚠️ No matching patients found")
+st.stop()
 referred = st.checkbox(
     "Refer to specialist",
     value=record.get('Referred', False)

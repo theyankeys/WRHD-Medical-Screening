@@ -165,6 +165,16 @@ if section == "General Information":
             index=2 if default_values.get('family_history_hypertension') == "Don't Know" else
                   (1 if default_values.get('family_history_hypertension') == "No" else 0)
         )
+        known_hypertensive = st.radio(
+    "Known Hypertensive",
+    options=["Yes", "No"],
+    index=0 if default_values.get('known_hypertensive') == "Yes" else 1
+)
+known_diabetes = st.radio(
+    "Known Diabetic",
+    options=["Yes", "No"],
+    index=0 if default_values.get('known_diabetes') == "Yes" else 1
+)
         
         # Calculate age
         age = calculate_age(dob) if dob else None

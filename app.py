@@ -298,14 +298,16 @@ elif section == "General Assessment":
 risk_factors = []
 
 # Blood Pressure Risk
-if 'Blood Pressure' in record:
-    try:
-        systolic, diastolic = map(int, record['Blood Pressure'].split('/'))
-        if systolic > 140 or diastolic > 90:
-            risk_factors.append("Hypertension")
-    except:
-        pass
-
+if 'record' in locals() and record is not None:
+    if 'Blood Pressure' in record:
+        try:
+            systolic, diastolic = map(int, record['Blood Pressure'].split('/'))
+            if systolic > 140 or diastolic > 90:
+                risk_factors.append("Hypertension")
+        except:
+            pass
+else:
+    st.warning("No patient record is currently selected!")
 # BMI Risk
 if 'BMI' in record:
     bmi = record['BMI']

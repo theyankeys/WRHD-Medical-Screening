@@ -316,7 +316,6 @@ else:
         elif 25 <= bmi < 30:
             risk_factors.append("Overweight") 
 # Blood Glucose Risk
-if 'record' in locals() and record is not None:
     if 'Blood Glucose' in record and 'Fasting Status' in record:
     glucose = record['Blood Glucose']
     fasting_status = record['Fasting Status']
@@ -331,8 +330,6 @@ if 'record' in locals() and record is not None:
             risk_factors.append("Prediabetes (Random)")
         elif glucose >= 11.1:
             risk_factors.append("Diabetes (Random)")
-else:
-    st.warning("No patient record is currently selected!")
 # Display Risk Factors
 if risk_factors:
     st.warning(f"🚨 Risk Factors Detected: {', '.join(risk_factors)}")

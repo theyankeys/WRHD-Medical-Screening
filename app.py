@@ -334,33 +334,32 @@ if 'Blood Glucose' in record and 'Fasting Status' in record:
 # Display Risk Factors
 if risk_factors:
     st.warning(f"🚨 Risk Factors Detected: {', '.join(risk_factors)}")
-            
-            # Assessment form
-            with st.form("assessment_form"):
-                clinical_notes = st.text_area("Clinical Assessment Notes",
-                                            value=record.get('Clinical Notes', ''))
-                
-                referred = st.checkbox("Refer to specialist",
-                                     value=record.get('Referred', False))
-                
-                if referred:
-                    referral_details = st.text_input("Referral details",
-                                                    value=record.get('Referral Details', ''))
-                
-                col1, col2 = st.columns(2)
-                with col1:
-                    if st.form_submit_button("💾 Save Assessment"):
-                        record['Clinical Notes'] = clinical_notes
-                        if save_data():
-                            st.success("✅ Assessment saved successfully!")
-                with col2:
-                    if st.form_submit_button("🚑 Refer Patient"):
-                        record['Referred'] = True
-                        record['Referral Date'] = datetime.today().strftime('%Y-%m-%d')
-                        record['Referral Details'] = referral_details if referred else ''
-                        if save_data():
-                            st.success("✅ Patient referred successfully!")
-                            st.balloons()
+    
+    # Assessment form
+    with st.form("assessment_form"):
+        clinical_notes = st.text_area("Clinical Assessment Notes",
+                                      value=record.get('Clinical Notes', ''))
+        referred = st.checkbox("Refer to specialist",
+                                value=record.get('Referred', False))
+        
+        if referred:
+            referral_details = st.text_input("Referral details",
+                                             value=record.get('Referral Details', ''))
+        
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.form_submit_button("💾 Save Assessment"):
+                record['Clinical Notes'] = clinical_notes
+                if save_data():
+                    st.success("✅ Assessment saved successfully!")
+        with col2:
+            if st.form_submit_button("🚑 Refer Patient"):
+                record['Referred'] = True
+                record['Referral Date'] = datetime.today().strftime('%Y-%m-%d')
+                record['Referral Details'] = referral_details if referred else ''
+                if save_data():
+                    st.success("✅ Patient referred successfully!")
+                    st.balloons()
         else:
             st.warning("⚠️ No matching patients found")
     else:

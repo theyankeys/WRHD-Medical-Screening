@@ -421,8 +421,6 @@ elif section == "Visual Examination":
                 with_glasses = st.checkbox("Tested with glasses/contacts",
                                          value=record.get('With Glasses', False))
                 
-                if with_glasses:
-                    st.subheader("Visual Acuity with Glasses")
                     col3, col4 = st.columns(2)
                     with col3:
                         right_eye_glasses = st.text_input("Right Eye with Glasses (e.g., 6/6)",
@@ -442,9 +440,8 @@ elif section == "Visual Examination":
                     record['Visual Acuity Left'] = left_eye
                     record['With Glasses'] = with_glasses
                     record['Vision Test Date'] = datetime.today().strftime('%Y-%m-%d')
-                    if with_glasses:
-                        record['Right Eye with Glasses'] = right_eye_glasses
-                        record['Left Eye with Glasses'] = left_eye_glasses
+                    record['Right Eye with Glasses'] = right_eye_glasses
+                    record['Left Eye with Glasses'] = left_eye_glasses
                     record['Clinical Notes'] = clinical_notes
                     record['Referred'] = refer_specialist
                     if refer_specialist:

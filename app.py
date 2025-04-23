@@ -4,6 +4,8 @@ from datetime import datetime
 import os
 import hashlib
 import time
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
 
 # Department mapping
 departments = {
@@ -28,27 +30,47 @@ if 'unique_code_time' not in st.session_state:
     st.session_state.unique_code_time = None
 
 # Data file path
+SCOPE = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+SERVICE_ACCOUNT_FILE = "wrhd-457715-3c11adff48fa.json"  # Replace with your key file
+SPREADSHEET_NAME = "WRHD Medical Screening"  # Replace with your Google Sheet name
+
+def connect_to_google_sheet():
+    creds = ServiceAccountCredentials.from_json_keyfile_name(SERVICE_ACCOUNT_FILE, SCOPE)
+    client = gspread.authorize(creds)
+    sheet = client.open(wrhd_ms).sheet1  # Get the first sheet
+    return sheet
+
 DATA_FILE = "medical_records.csv"
 
 def load_data():
-    if os.path.exists(DATA_FILE):
-        try:
-            df = pd.read_csv(DATA_FILE, parse_dates=['DOB'])
-            st.session_state['records'] = df.to_dict('records')
-        except Exception as e:
-            st.error(f"Error loading data: {str(e)}")
-            st.session_state['records'] = []
-
-def save_data():
     try:
-        df = pd.DataFrame(st.session_state['records'])
-        df.to_csv(DATA_FILE, index=False)
-        return True
+        df = pd.read_csv("medical_records.csv")
+    except FileNotFoundError:
+        try:
+            sheet = connect_to_google_sheet()
+            records = sheet.get_all_records()  # Fetch all data as a list of dictionaries
+            df = pd.DataFrame(records)
+        except Exception as e:
+            st.error(f"Could not load data from Google Sheets: {str(e)}")
+            df = pd.DataFrame(columns=["Column1", "Column2", "Column3"])  # Default columns
+    return df
+    
+def save_data(df):
+    # Save to CSV
+    try:
+        df.to_csv("medical_records.csv", index=False)
     except Exception as e:
-        st.error(f"Failed to save data: {str(e)}")
-        return False
+        st.error(f"Error saving to CSV: {e}")
+    
+    # Save to Google Sheets
+    try:
+        sheet = connect_to_google_sheet()
+        sheet.clear()  # Clear existing data
+        sheet.update([df.columns.values.tolist()] + df.values.tolist())  # Update with new data
+    except Exception as e:
+        st.error(f"Error saving to Google Sheets: {e}")
 
-load_data()
+
 
 def calculate_bmi(weight, height):
     if height > 0:
@@ -85,6 +107,29 @@ section = st.sidebar.radio("Select Section", [
     "General Assessment",
     "Data Export"
 ])
+
+st.title("Medical Records App")
+
+# Load data on app startup
+if "records" not in st.session_state:
+    st.session_state["records"] = load_data()
+
+# Display data
+df = st.session_state["records"]
+st.write(df)
+
+# Add new data
+with st.form("data_entry_form"):
+    col1 = st.text_input("Column 1")
+    col2 = st.text_input("Column 2")
+    col3 = st.text_input("Column 3")
+    submitted = st.form_submit_button("Add Data")
+
+    if submitted:
+        new_row = {"Column1": col1, "Column2": col2, "Column3": col3}
+        st.session_state["records"] = st.session_state["records"].append(new_row, ignore_index=True)
+        save_data(st.session_state["records"])
+        st.success("Data added successfully!")
 
 # ========================
 # GENERAL INFORMATION SECTION

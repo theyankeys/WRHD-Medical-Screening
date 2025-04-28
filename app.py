@@ -32,25 +32,11 @@ SCOPE = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/au
 SERVICE_ACCOUNT_FILE = "wrhd-457715-3c11adff48fa.json"  # Replace with your key file
 SPREADSHEET_NAME = "WRHD Medical Screening"  # Replace with your Google Sheet name
 
-def connect_to_google_sheet():
-    creds = ServiceAccountCredentials.from_json_keyfile_name(SERVICE_ACCOUNT_FILE, SCOPE)
-    client = gspread.authorize(creds)
-    sheet = client.open(wrhd_ms).sheet1  # Get the first sheet
-    return sheet
-
 DATA_FILE = "medical_records.csv"
 
 def load_data():
     try:
         df = pd.read_csv("medical_records.csv")
-    except FileNotFoundError:
-        try:
-            sheet = connect_to_google_sheet()
-            records = sheet.get_all_records()  # Fetch all data as a list of dictionaries
-            df = pd.DataFrame(records)
-        except Exception as e:
-            st.error(f"Could not load data from Google Sheets: {str(e)}")
-            df = pd.DataFrame(columns=["Column1", "Column2", "Column3"])  # Default columns
     return df
     
 def save_data(df):
@@ -59,16 +45,6 @@ def save_data(df):
         df.to_csv("medical_records.csv", index=False)
     except Exception as e:
         st.error(f"Error saving to CSV: {e}")
-    
-    # Save to Google Sheets
-    try:
-        sheet = connect_to_google_sheet()
-        sheet.clear()  # Clear existing data
-        sheet.update([df.columns.values.tolist()] + df.values.tolist())  # Update with new data
-    except Exception as e:
-        st.error(f"Error saving to Google Sheets: {e}")
-
-
 
 def calculate_bmi(weight, height):
     if height > 0:

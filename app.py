@@ -28,23 +28,27 @@ if 'unique_code_time' not in st.session_state:
     st.session_state.unique_code_time = None
 
 # Data file path
-SCOPE = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-SERVICE_ACCOUNT_FILE = "wrhd-457715-3c11adff48fa.json"  # Replace with your key file
-SPREADSHEET_NAME = "WRHD Medical Screening"  # Replace with your Google Sheet name
-
 DATA_FILE = "medical_records.csv"
 
 def load_data():
+    if os.path.exists(DATA_FILE):
+        try:
+            df = pd.read_csv(DATA_FILE, parse_dates=['DOB'])
+            st.session_state['records'] = df.to_dict('records')
+        except Exception as e:
+            st.error(f"Error loading data: {str(e)}")
+            st.session_state['records'] = []
+
+def save_data():
     try:
-        df = pd.read_csv("medical_records.csv")
-    return df
-    
-def save_data(df):
-    # Save to CSV
-    try:
-        df.to_csv("medical_records.csv", index=False)
+        df = pd.DataFrame(st.session_state['records'])
+        df.to_csv(DATA_FILE, index=False)
+        return True
     except Exception as e:
-        st.error(f"Error saving to CSV: {e}")
+        st.error(f"Failed to save data: {str(e)}")
+        return False
+
+load_data()
 
 def calculate_bmi(weight, height):
     if height > 0:
@@ -81,29 +85,6 @@ section = st.sidebar.radio("Select Section", [
     "General Assessment",
     "Data Export"
 ])
-
-st.title("Medical Records App")
-
-# Load data on app startup
-if "records" not in st.session_state:
-    st.session_state["records"] = load_data()
-
-# Display data
-df = st.session_state["records"]
-st.write(df)
-
-# Add new data
-with st.form("data_entry_form"):
-    col1 = st.text_input("Column 1")
-    col2 = st.text_input("Column 2")
-    col3 = st.text_input("Column 3")
-    submitted = st.form_submit_button("Add Data")
-
-    if submitted:
-        new_row = {"Column1": col1, "Column2": col2, "Column3": col3}
-        st.session_state["records"] = st.session_state["records"].append(new_row, ignore_index=True)
-        save_data(st.session_state["records"])
-        st.success("Data added successfully!")
 
 # ========================
 # GENERAL INFORMATION SECTION

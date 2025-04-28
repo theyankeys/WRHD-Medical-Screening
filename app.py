@@ -4,8 +4,6 @@ from datetime import datetime
 import os
 import hashlib
 import time
-import gspread
-from oauth2client.service_account import ServiceAccountCredentials
 
 # Department mapping
 departments = {

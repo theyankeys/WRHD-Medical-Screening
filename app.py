@@ -144,6 +144,7 @@ if section == "General Information":
         with col_a:
             dob = st.date_input("Date of Birth*", 
                               value=default_values['dob'],
+                                min_value=datetime(1900, 1, 1),
                               max_value=datetime.today())
             sex = st.selectbox("Sex*", ["", "Male", "Female", "Other"])
             job_title = st.text_input("Job Title", value=default_values['job_title'])
